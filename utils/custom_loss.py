@@ -10,7 +10,7 @@ class CustomLoss(tf.keras.losses.Loss):
         super().__init__()
 
     def call(self, y_true, y_pred):
-        mse = tf.reduce_mean(tf.square(y_pred.mean() - y_true)) * self.mse_scale
+        mse = tf.reduce_mean(tf.square(y_pred - y_true)) * self.mse_scale
         neg_log_likelihood = self.negative_loglikelihood(y_true, y_pred) * self.likelihood_scale
         neg_scaled_pearson = -tfp.stats.correlation(y_true, y_pred) * self.pearson_scale
         return neg_log_likelihood + mse + neg_scaled_pearson
